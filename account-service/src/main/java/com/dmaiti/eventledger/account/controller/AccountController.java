@@ -5,6 +5,7 @@ import com.dmaiti.eventledger.account.dto.BalanceResponse;
 import com.dmaiti.eventledger.account.dto.TransactionRequest;
 import com.dmaiti.eventledger.account.dto.TransactionResponse;
 import com.dmaiti.eventledger.account.service.AccountService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,7 +28,7 @@ public class AccountController {
     @PostMapping("/{accountId}/transactions")
     public ResponseEntity<TransactionResponse> applyTransaction(
             @PathVariable String accountId,
-            @RequestBody TransactionRequest request) {
+            @Valid @RequestBody TransactionRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(accountService.applyTransaction(accountId, request));
     }
 

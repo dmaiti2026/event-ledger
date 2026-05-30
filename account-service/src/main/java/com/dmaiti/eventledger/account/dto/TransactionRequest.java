@@ -1,16 +1,29 @@
 package com.dmaiti.eventledger.account.dto;
 
 import com.dmaiti.eventledger.account.model.TransactionType;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
 import java.math.BigDecimal;
 import java.time.Instant;
 
 public class TransactionRequest {
 
+    @NotBlank(message = "eventId is required")
     private String eventId;
+
+    @NotNull(message = "type is required and must be CREDIT or DEBIT")
     private TransactionType type;
+
+    @NotNull(message = "amount is required")
+    @Positive(message = "amount must be greater than 0")
     private BigDecimal amount;
+
+    @NotBlank(message = "currency is required")
     private String currency;
+
+    @NotNull(message = "eventTimestamp is required")
     private Instant eventTimestamp;
 
     public String getEventId() { return eventId; }

@@ -6,7 +6,7 @@ import com.dmaiti.eventledger.account.dto.TransactionRequest;
 import com.dmaiti.eventledger.account.dto.TransactionResponse;
 import com.dmaiti.eventledger.account.entity.Account;
 import com.dmaiti.eventledger.account.entity.Transaction;
-import com.dmaiti.eventledger.account.model.ServiceConstants;
+import com.dmaiti.eventledger.account.exception.AccountNotFoundException;
 import com.dmaiti.eventledger.account.model.TransactionType;
 import com.dmaiti.eventledger.account.repository.AccountRepository;
 import com.dmaiti.eventledger.account.repository.TransactionRepository;
@@ -59,7 +59,7 @@ public class AccountService {
     @Transactional(readOnly = true)
     public AccountResponse getAccount(String accountId) {
         Account account = accountRepository.findById(accountId)
-                .orElseThrow(() -> new RuntimeException(ServiceConstants.ERROR_ACCOUNT_NOT_FOUND + accountId));
+                .orElseThrow(() -> new AccountNotFoundException(accountId));
 
         List<Transaction> transactions = transactionRepository.findByAccountIdOrderByEventTimestampAsc(accountId);
         BigDecimal credits = transactionRepository.sumByAccountIdAndType(accountId, TransactionType.CREDIT);
