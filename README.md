@@ -146,6 +146,8 @@ Bulkhead protects the Gateway's own resources (thread pool, connection pool) by 
 **Conclusion**
 The assignment mentions "return a meaningful error to the client" — that maps exactly to what circuit breaker does. The three states (CLOSED → OPEN → HALF-OPEN) give automatic recovery without manual intervention. And the PENDING sync status is a concrete, readable demonstration of graceful degradation: the event is captured, the client gets a 201, and the system self-heals when the Account Service comes back.
 
+> **Note on degraded behaviour:** When the Account Service is unavailable, `POST /events` intentionally returns **201 with `accountSyncStatus: PENDING`** rather than a 503. This is a deliberate design choice — the event is captured and not lost, the client does not need to retry, and idempotency ensures no duplicates if they do. `GET /events/{id}` and `GET /events?account=...` continue to work normally as they depend only on the Gateway's local data.
+
 ---
 
 ## Test Coverage
