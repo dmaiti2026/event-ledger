@@ -52,7 +52,7 @@ public class EventService {
         event.setMetadata(serializeMetadata(request.getMetadata()));
         event = eventRepository.save(event);
 
-        accountServiceClient.applyTransaction(request.getAccountId(),
+        boolean synced = accountServiceClient.applyTransaction(request.getAccountId(),
                 new AccountTransactionRequest(
                         request.getEventId(),
                         request.getType(),
@@ -60,7 +60,9 @@ public class EventService {
                         request.getCurrency(),
                         request.getEventTimestamp()));
 
-        return new EventSubmissionResult(toResponse(event), false);
+        EventResponse response = toResponse(event);
+        response.setAccountSyncStatus(synced ? GatewayConstants.SYNC_STATUS_SYNCED : GatewayConstants.SYNC_STATUS_PENDING);
+        return new EventSubmissionResult(response, false);
     }
 
     @Transactional(readOnly = true)
@@ -89,6 +91,7 @@ public class EventService {
         response.setEventTimestamp(event.getEventTimestamp());
         response.setMetadata(deserializeMetadata(event.getMetadata()));
         response.setReceivedAt(event.getReceivedAt());
+        response.setAccountSyncStatus(GatewayConstants.SYNC_STATUS_SYNCED);
         return response;
     }
 

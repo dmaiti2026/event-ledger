@@ -28,4 +28,7 @@ public final class GatewayConstants {
     public static final String ERROR_INTERNAL           = "Internal Server Error";
 
     public static final String ACCOUNT_TRANSACTIONS_PATH = "/accounts/%s/transactions";
+
+    public static final String SYNC_STATUS_SYNCED  = "SYNCED";
+    public static final String SYNC_STATUS_PENDING = "PENDING";
 }

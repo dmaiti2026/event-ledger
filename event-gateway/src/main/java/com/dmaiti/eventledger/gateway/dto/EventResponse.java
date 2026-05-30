@@ -17,6 +17,7 @@ public class EventResponse {
     private Instant eventTimestamp;
     private Map<String, Object> metadata;
     private Instant receivedAt;
+    private String accountSyncStatus;
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -44,4 +45,7 @@ public class EventResponse {
 
     public Instant getReceivedAt() { return receivedAt; }
     public void setReceivedAt(Instant receivedAt) { this.receivedAt = receivedAt; }
+
+    public String getAccountSyncStatus() { return accountSyncStatus; }
+    public void setAccountSyncStatus(String accountSyncStatus) { this.accountSyncStatus = accountSyncStatus; }
 }

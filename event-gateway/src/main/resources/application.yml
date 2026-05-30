@@ -22,6 +22,16 @@ spring:
 account-service:
   base-url: http://localhost:8081
 
+resilience4j:
+  circuitbreaker:
+    instances:
+      accountService:
+        sliding-window-size: 5
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 10s
+        permitted-number-of-calls-in-half-open-state: 3
+        register-health-indicator: true
+
 management:
   tracing:
     sampling:
