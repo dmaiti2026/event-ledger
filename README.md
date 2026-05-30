@@ -55,6 +55,7 @@ mvn spring-boot:run
 ### Option 2 — Docker Compose (everything in one command)
 
 ```bash
+cd event-ledger
 docker-compose up --build
 ```
 

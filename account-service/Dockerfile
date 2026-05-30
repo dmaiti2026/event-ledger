@@ -6,7 +6,7 @@ COPY event-gateway/pom.xml event-gateway/
 COPY account-service/src account-service/src
 RUN mvn -pl account-service -am package -DskipTests
 
-FROM eclipse-temurin:17-jre-alpine
+FROM eclipse-temurin:17-jre
 WORKDIR /app
 COPY --from=build /app/account-service/target/account-service-*.jar app.jar
 ENTRYPOINT ["java", "-jar", "app.jar"]
