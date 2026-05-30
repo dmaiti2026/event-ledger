@@ -13,6 +13,10 @@ public final class ServiceConstants {
     public static final String STATUS_UP   = "UP";
     public static final String STATUS_DOWN = "DOWN";
 
+    public static final String METRIC_TRANSACTIONS_POST  = "transactions.post";
+    public static final String METRIC_BALANCE_GET        = "balance.get";
+    public static final String METRIC_ACCOUNT_GET        = "account.get";
+
     public static final String ERROR_ACCOUNT_NOT_FOUND  = "Account not found: ";
     public static final String ERROR_VALIDATION_FAILED  = "Validation failed";
     public static final String ERROR_MALFORMED_REQUEST  = "Malformed or unreadable request body";
