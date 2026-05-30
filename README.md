@@ -134,6 +134,17 @@ Both services log JSON via `logstash-logback-encoder`. Every log line includes `
 ### Circuit Breaker
 `AccountServiceClient.applyTransaction()` is wrapped with a Resilience4j circuit breaker (`accountService` instance). If the Account Service fails on 50% of the last 5 calls, the circuit opens for 10 seconds. During this time the fallback returns `false`, the gateway logs a warning, and the event response carries `accountSyncStatus: PENDING`. The gateway always returns 201 — it never propagates a 5xx to the caller.
 
+**Why I chose Circuit Breaker over the other two:**
+
+**vs. Timeout + Retry with backoff**
+Retry is optimistic — it assumes the failure is transient and the downstream will recover quickly. For an Account Service that is repeatedly failing (which is what the assignment says), retrying just makes things worse: every event submission holds a thread open longer, response times spike, and you're still hammering a service that's already struggling. Circuit breaker is pessimistic in the right way — it stops trying after a threshold and lets the system breathe.
+
+**vs. Bulkhead**
+Bulkhead protects the Gateway's own resources (thread pool, connection pool) by isolating the Account Service call into a separate pool. It's a defensive pattern about your service, not about the downstream. It doesn't help the downstream recover, and it doesn't give the client a meaningful response — it just limits the blast radius. For this assignment, the more impactful behavior to demonstrate is graceful degradation to the client, which circuit breaker handles directly.
+
+**Conclusion**
+The assignment mentions "return a meaningful error to the client" — that maps exactly to what circuit breaker does. The three states (CLOSED → OPEN → HALF-OPEN) give automatic recovery without manual intervention. And the PENDING sync status is a concrete, readable demonstration of graceful degradation: the event is captured, the client gets a 201, and the system self-heals when the Account Service comes back.
+
 ---
 
 ## Test Coverage
