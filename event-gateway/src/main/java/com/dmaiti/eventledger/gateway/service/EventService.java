@@ -1,6 +1,7 @@
 package com.dmaiti.eventledger.gateway.service;
 
 import com.dmaiti.eventledger.gateway.client.AccountServiceClient;
+import com.dmaiti.eventledger.gateway.exception.EventNotFoundException;
 import com.dmaiti.eventledger.gateway.dto.AccountTransactionRequest;
 import com.dmaiti.eventledger.gateway.dto.EventRequest;
 import com.dmaiti.eventledger.gateway.dto.EventResponse;
@@ -66,7 +67,7 @@ public class EventService {
     public EventResponse getEvent(Long id) {
         return eventRepository.findById(id)
                 .map(this::toResponse)
-                .orElseThrow(() -> new RuntimeException(GatewayConstants.ERROR_EVENT_NOT_FOUND + id));
+                .orElseThrow(() -> new EventNotFoundException(id));
     }
 
     @Transactional(readOnly = true)

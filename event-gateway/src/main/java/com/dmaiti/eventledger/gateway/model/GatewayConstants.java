@@ -13,7 +13,12 @@ public final class GatewayConstants {
     public static final String STATUS_UP               = "UP";
     public static final String STATUS_DOWN             = "DOWN";
 
-    public static final String ERROR_EVENT_NOT_FOUND   = "Event not found: ";
+    public static final String ERROR_EVENT_NOT_FOUND    = "Event not found: ";
+    public static final String ERROR_VALIDATION_FAILED  = "Validation failed";
+    public static final String ERROR_MALFORMED_REQUEST  = "Malformed or unreadable request body";
+    public static final String ERROR_BAD_REQUEST        = "Bad Request";
+    public static final String ERROR_NOT_FOUND          = "Not Found";
+    public static final String ERROR_INTERNAL           = "Internal Server Error";
 
     public static final String ACCOUNT_TRANSACTIONS_PATH = "/accounts/%s/transactions";
 }

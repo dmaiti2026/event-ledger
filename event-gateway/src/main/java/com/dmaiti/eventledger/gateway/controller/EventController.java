@@ -4,6 +4,7 @@ import com.dmaiti.eventledger.gateway.dto.EventRequest;
 import com.dmaiti.eventledger.gateway.dto.EventResponse;
 import com.dmaiti.eventledger.gateway.dto.EventSubmissionResult;
 import com.dmaiti.eventledger.gateway.service.EventService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,7 +28,7 @@ public class EventController {
     }
 
     @PostMapping
-    public ResponseEntity<EventResponse> submitEvent(@RequestBody EventRequest request) {
+    public ResponseEntity<EventResponse> submitEvent(@Valid @RequestBody EventRequest request) {
         EventSubmissionResult result = eventService.submitEvent(request);
         HttpStatus status = result.isDuplicate() ? HttpStatus.OK : HttpStatus.CREATED;
         return ResponseEntity.status(status).body(result.getEvent());
